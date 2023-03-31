@@ -1,0 +1,5 @@
+node_modules
+allure-report
+report
+src/allure-results
+src/report
