@@ -1,7 +1,13 @@
+const DashboardPage = require('./../po/pages/dashboard.page');
+const DoctorsPage = require('./../po/pages/doctors.page');
+
+const dashboardPage = new DashboardPage();
+const doctorsPage = new DoctorsPage();
+
 describe("Doctors page", () => {
     beforeEach(async () =>{
-        await browser.url('https://ej2.syncfusion.com/showcase/angular/appointmentplanner/#/dashboard')
-    })
+        await dashboardPage.open();
+    }),
 
     it ('Check page title', async () => {
         await expect(browser).toHaveTitle('Appointment Planner - Syncfusion Angular Components Showcase App')
@@ -9,22 +15,22 @@ describe("Doctors page", () => {
 
     it ('Open modal window for adding a new doctor', async () => {
         // click doctors item in the side menu (?)
-        await $('[routerlink="/doctors"').click();
+        await dashboardPage.sideMenu.item('doctors').click();
         // click add new doctor btn
-        await $("//button[text()='Add New Doctor']").click();
+        await doctorsPage.doctorListHeader.addNewDoctorBtn.click();
         // verify that modal window is displayed
-        await expect($('.new-doctor-dialog')).toBeDisplayed();
+        await expect(doctorsPage.addDoctorModal.rootEl).toBeDisplayed();
 
 
     }),
 
     it("Add a new doctor", async () => {
         // click doctors item in the side menu (?)
-        await $('[routerlink="/doctors"').click();
+        await dashboardPage.sideMenu.item('doctors').click();
         // click add new doctor btn
-        await $("//button[text()='Add New Doctor']").click();
+        await doctorsPage.doctorListHeader.addNewDoctorBtn.click()
         // wait for visibility of modal window
-        await $('.new-doctor-dialog').waitForDisplayed();
+        await doctorsPage.addDoctorModal.rootEl.waitForDisplayed();
         // fill all required fields
         await $('[name="Name"]').setValue("John Doe");
         await $('#DoctorMobile').setValue("1111111111");
@@ -44,14 +50,14 @@ describe("Doctors page", () => {
 
     it ('Close modal window for adding a new doctor', async () => {
         // click doctors item in the side menu (?)
-        await $('[routerlink="/doctors"').click();
+        await dashboardPage.sideMenu.item('doctors').click();
         // click add new doctor btn
-        await $("//button[text()='Add New Doctor']").click();
+        await doctorsPage.doctorListHeader.addNewDoctorBtn.click();
         // verify that modal window is displayed
-        await expect($('.new-doctor-dialog')).toBeDisplayed();
+        await doctorsPage.addDoctorModal.rootEl.waitForDisplayed();
         // click close button
         await $('button[title="Close"]').click();
         // verify that modal window is not displayed anymore
-        await expect($('.new-doctor-dialog')).not.toBeDisplayed();
+        await expect(doctorsPage.addDoctorModal.rootEl).not.toBeDisplayed();
     })
 })

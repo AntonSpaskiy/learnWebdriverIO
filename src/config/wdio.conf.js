@@ -25,7 +25,7 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        './../tests/*.tests.js'
+        '../**/tests/*.tests.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -62,7 +62,7 @@ exports.config = {
         //
         browserName: 'chrome',
         'goog:chromeOptions': {
-        binary: 'C:/Program Files (x86)/Google/Chrome/Application/Chrome.exe'
+        binary: 'C:/Program Files/Google/Chrome/Application/Chrome.exe'
         },
         acceptInsecureCerts: true
         // If outputDir is provided WebdriverIO can capture driver session logs
@@ -141,17 +141,16 @@ exports.config = {
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: ['spec', 
     ["junit", {
-        outputDir: "./report",
+        outputDir: "../artifacts/spec-results",
         outputFileFormat: function (options) {
             return `results-${options.cid}.xml`;
         },
     }],
     ['allure', {
 
-        outputDir: "./allure-results",
+        outputDir: "../artifacts/allure-results",
         disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: true,
-
         }
 
       ]
