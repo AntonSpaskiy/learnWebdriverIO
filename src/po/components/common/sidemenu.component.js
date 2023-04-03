@@ -1,10 +1,14 @@
-class SideMenuComponent {
-    get rootEl() {
-        return $('#plannerSiderBar')
-    }
+const BaseComponent = require ('./base.component')
+
+class SideMenuComponent extends BaseComponent{
+
+    constructor() {
+        super('#plannerSiderBar');
+    };
+
     get name () {
         return this.rootEl.$('.name');
-    }
+    };
 
 item(param) {
     const selectors = {
@@ -12,9 +16,9 @@ item(param) {
         schedule: '[routerlink="/calendar"]',
         doctors: '[routerlink="/doctors"]'
     };
+
     return this.rootEl.$(selectors[param.toLowerCase()]);
 }
-
 }
 
 module.exports = SideMenuComponent;
