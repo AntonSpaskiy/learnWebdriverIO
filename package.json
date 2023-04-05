@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "wdio run ../src/config/wdio.conf.js"
+    "test": "wdio run ./src/config/wdio.conf.js"
   },
   "keywords": [],
   "author": "",
