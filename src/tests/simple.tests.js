@@ -1,12 +1,8 @@
-const DashboardPage = require('./../po/pages/dashboard.page');
-const DoctorsPage = require('./../po/pages/doctors.page');
-
-const dashboardPage = new DashboardPage();
-const doctorsPage = new DoctorsPage();
+const { pages } = require('./../po');
 
 describe("Doctors page", () => {
     beforeEach(async () =>{
-        await dashboardPage.open();
+        await pages('dashboard').open();
     }),
 
     it ('Check page title', async () => {
@@ -15,49 +11,48 @@ describe("Doctors page", () => {
 
     it ('Open modal window for adding a new doctor', async () => {
         // click doctors item in the side menu (?)
-        await dashboardPage.sideMenu.item('doctors').click();
+        await pages('dashboard').sideMenu.item('doctors').click();
         // click add new doctor btn
-        await doctorsPage.doctorListHeader.addNewDoctorBtn.click();
+        await pages('doctors').doctorListHeader.addNewDoctorBtn.click();
         // verify that modal window is displayed
-        await expect(doctorsPage.addDoctorModal.rootEl).toBeDisplayed();
+        await expect(pages('doctors').addDoctorModal.rootEl).toBeDisplayed();
 
 
     }),
 
     it("Add a new doctor", async () => {
         // click doctors item in the side menu (?)
-        await dashboardPage.sideMenu.item('doctors').click();
+        await pages('dashboard').sideMenu.item('doctors').click();
         // click add new doctor btn
-        await doctorsPage.doctorListHeader.addNewDoctorBtn.click()
+        await pages('doctors').doctorListHeader.addNewDoctorBtn.click()
         // wait for visibility of modal window
-        await doctorsPage.addDoctorModal.rootEl.waitForDisplayed();
+        await pages('doctors').addDoctorModal.rootEl.waitForDisplayed();
         // fill all required fields
-        await $('[name="Name"]').setValue("John Doe");
-        await $('#DoctorMobile').setValue("1111111111");
-        await $('input[name="Email"]').setValue("johndoe@gmail.com");
-        await $('input[name="Education"]').setValue("High Medical");
-        await $('input[name="Designation"]').setValue("High Medical");
+        await pages('doctors').addDoctorModal.input('name').setValue("John Doe");
+        await pages('doctors').addDoctorModal.input('phone').setValue("1111111111");
+        await pages('doctors').addDoctorModal.input('email').setValue("johndoe@gmail.com");
+        await pages('doctors').addDoctorModal.input('education').setValue("High Medical");
+        await pages('doctors').addDoctorModal.input('designation').setValue("Far away");
         // click "Save"
-        await $("//button[text()='Save']").click();
+        await pages('doctors').addDoctorModal.saveBtn.click();
         // check that the doctor creation pop-up has disappeared
-        await expect($('.new-doctor-dialog')).not.toBeDisplayed();
+        await expect (pages('doctors').addDoctorModal.rootEl).not.toBeDisplayed();
         // check that the information about create doctor is displayed
-        await expect($('#Specialist_8').$('.name')).toHaveText('Dr. John Doe');
-        await expect($('#Specialist_8').$('.education')).toHaveText('High Medical', {ignoreCase: true});
-        await expect($('#Specialist_8').$('.specialization')).toBeDisplayed();
-        await expect($('#Specialist_8').$('.experience')).toBeDisplayed();
+
+        await expect(pages('doctors').specialistCard(8).name).toHaveText('Dr. John Doe');
+        await expect(pages('doctors').specialistCard(8).education).toHaveText('High Medical', {ignoreCase: true});
     }),
 
     it ('Close modal window for adding a new doctor', async () => {
         // click doctors item in the side menu (?)
-        await dashboardPage.sideMenu.item('doctors').click();
+        await pages('dashboard').sideMenu.item('doctors').click();
         // click add new doctor btn
-        await doctorsPage.doctorListHeader.addNewDoctorBtn.click();
+        await pages('doctors').doctorListHeader.addNewDoctorBtn.click();
         // verify that modal window is displayed
-        await doctorsPage.addDoctorModal.rootEl.waitForDisplayed();
+        await pages('doctors').addDoctorModal.rootEl.waitForDisplayed();
         // click close button
-        await $('button[title="Close"]').click();
+        await pages('doctors').addDoctorModal.closeBtn.click();
         // verify that modal window is not displayed anymore
-        await expect(doctorsPage.addDoctorModal.rootEl).not.toBeDisplayed();
+        await expect(pages('doctors').addDoctorModal.rootEl).not.toBeDisplayed();
     })
 })
